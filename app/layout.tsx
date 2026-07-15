@@ -43,6 +43,19 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "Bring your style to the web. Private, local, and open source.",
       images: [`${origin}/og.png`],
     },
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+        "max-video-preview": 0,
+        "max-image-preview": "none",
+        "max-snippet": 0,
+      },
+    },
   };
 }
 
