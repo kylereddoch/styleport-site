@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { SiteFooter, SiteHeader } from "./components";
 
 export const metadata: Metadata = {
@@ -134,11 +134,11 @@ export default function Home() {
 
         <section className="section shell visual-section">
           <div className="product-shot">
-            <Image
+            <img
               src="/press/import-style.png"
               alt="StylePort import screen in Safari with file, URL, and pasted CSS choices"
-              width={1570}
-              height={971}
+              width="1570"
+              height="971"
             />
           </div>
           <div className="visual-copy">
@@ -226,7 +226,7 @@ export default function Home() {
               </p>
             </div>
             <div className="download-card">
-              <Image src="/styleport-icon.png" alt="StylePort app icon" width={64} height={64} />
+              <img src="/styleport-icon.png" alt="StylePort app icon" width="64" height="64" />
               <div>
                 <strong>StylePort for Safari</strong>
                 <span>macOS 14 or newer</span>

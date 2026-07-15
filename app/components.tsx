@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import Image from "next/image";
 
 const navigation = [
   { href: "/#features", label: "Features" },
@@ -13,7 +13,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="shell nav-shell">
         <Link className="brand" href="/" aria-label="StylePort home">
-          <Image src="/styleport-icon.png" alt="" width={42} height={42} />
+          <img src="/styleport-icon.png" alt="" width="42" height="42" />
           <span>StylePort</span>
         </Link>
         <nav aria-label="Main navigation">
@@ -37,7 +37,7 @@ export function SiteFooter() {
       <div className="shell footer-grid">
         <div>
           <Link className="brand footer-brand" href="/">
-            <Image src="/styleport-icon.png" alt="" width={38} height={38} />
+            <img src="/styleport-icon.png" alt="" width="38" height="38" />
             <span>StylePort</span>
           </Link>
           <p>Bring your style to the web.</p>

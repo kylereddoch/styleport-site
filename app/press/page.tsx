@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
-import Image from "next/image";
 import { PageIntro, SiteFooter, SiteHeader } from "../components";
 
 export const metadata: Metadata = {
@@ -55,17 +55,17 @@ export default function PressPage() {
           </div>
           <div className="asset-grid">
             <article className="asset-card icon-asset">
-              <div className="asset-preview"><Image src="/press/styleport-icon-1024.png" alt="StylePort app icon" width={1024} height={1024} /></div>
+              <div className="asset-preview"><img src="/press/styleport-icon-1024.png" alt="StylePort app icon" width="1024" height="1024" /></div>
               <div><h3>App icon</h3><p>PNG · 1024 × 1024</p></div>
               <a href="/press/styleport-icon-1024.png" download>Download PNG</a>
             </article>
             <article className="asset-card wide-asset">
-              <div className="asset-preview"><Image src="/press/import-style.png" alt="StylePort import screen" width={1570} height={971} /></div>
+              <div className="asset-preview"><img src="/press/import-style.png" alt="StylePort import screen" width="1570" height="971" /></div>
               <div><h3>Import screen</h3><p>PNG · Safari development build</p></div>
               <a href="/press/import-style.png" download>Download PNG</a>
             </article>
             <article className="asset-card wide-asset">
-              <div className="asset-preview"><Image src="/press/style-manager.png" alt="StylePort style manager" width={1570} height={971} /></div>
+              <div className="asset-preview"><img src="/press/style-manager.png" alt="StylePort style manager" width="1570" height="971" /></div>
               <div><h3>Style manager</h3><p>PNG · Safari development build</p></div>
               <a href="/press/style-manager.png" download>Download PNG</a>
             </article>
