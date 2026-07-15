@@ -1,0 +1,105 @@
+import type { Metadata } from "next";
+import { PageIntro, SiteFooter, SiteHeader } from "../components";
+
+export const metadata: Metadata = {
+  title: "Privacy — StylePort",
+  description: "How StylePort handles styles, website access, and network requests.",
+};
+
+export default function PrivacyPage() {
+  return (
+    <>
+      <SiteHeader />
+      <main>
+        <PageIntro eyebrow="Privacy policy" title="Your styles stay yours.">
+          <p>
+            StylePort has no analytics, advertising, tracking, telemetry, or
+            account system. This policy explains the access the extension needs
+            and what remains on your device.
+          </p>
+          <p className="policy-date">Effective July 15, 2026</p>
+        </PageIntro>
+
+        <article className="prose shell">
+          <section>
+            <h2>Data stored on your device</h2>
+            <p>
+              StylePort stores the styles you import or create, their settings,
+              and extension preferences in Safari&apos;s extension storage on your
+              Mac. This information stays on your device unless you choose to
+              export a backup or otherwise share it.
+            </p>
+            <p>
+              Removing styles deletes them from StylePort. Removing the app and
+              its extension causes macOS and Safari to control deletion of the
+              remaining local app data.
+            </p>
+          </section>
+
+          <section>
+            <h2>Website access</h2>
+            <p>
+              Safari website access is required so StylePort can determine
+              which user-selected styles match a page and apply their compiled
+              CSS. StylePort does not use this access to build or transmit
+              browsing history.
+            </p>
+            <p>
+              You control website access in Safari Settings and can restrict or
+              revoke it at any time. Revoking access prevents StylePort from
+              styling those websites.
+            </p>
+          </section>
+
+          <section>
+            <h2>Network requests you initiate</h2>
+            <p>
+              StylePort can retrieve a style when you provide its URL and can
+              check an installed style&apos;s update URL when you request or enable
+              updates. Those requests go to the host named by the style or URL.
+              That host may receive ordinary network information such as your
+              IP address and user agent under its own privacy policy.
+            </p>
+            <p>
+              The Safari release does not inject marketplace installation hooks
+              and does not provide cloud synchronization.
+            </p>
+          </section>
+
+          <section>
+            <h2>Data collection declaration</h2>
+            <p>
+              StylePort declares that it does not track users and does not
+              collect data for the developer or third parties. Its Apple privacy
+              manifest lists no collected data types and no tracking domains.
+            </p>
+          </section>
+
+          <section>
+            <h2>This website</h2>
+            <p>
+              The StylePort website does not use advertising trackers, analytics
+              scripts, or marketing cookies. Its hosting provider may process
+              ordinary request information needed to deliver and protect the
+              site, such as an IP address, request time, and browser details,
+              under the provider&apos;s own terms.
+            </p>
+          </section>
+
+          <section>
+            <h2>Changes and contact</h2>
+            <p>
+              Material changes will be documented in the StylePort repository
+              and reflected by a new effective date. Privacy questions can be
+              filed in the{" "}
+              <a href="https://github.com/kylereddoch/styleport/issues">
+                StylePort issue tracker
+              </a>.
+            </p>
+          </section>
+        </article>
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
