@@ -15,6 +15,9 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /Coming soon/);
   assert.match(html, /Development preview/);
   assert.match(html, /content="index, follow"/);
+  assert.match(html, /id="appearance"/);
+  assert.match(html, /RelayByte/);
+  assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
 });
 
@@ -26,7 +29,9 @@ test("builds every public information route", async () => {
     ["updates/index.html", /What’s shipping next/],
   ];
   for (const [pathname, expected] of routes) {
-    assert.match(await output(pathname), expected, pathname);
+    const html = await output(pathname);
+    assert.match(html, expected, pathname);
+    if (pathname === "privacy/index.html") assert.match(html, /styleport-appearance/);
   }
 });
 
@@ -35,6 +40,8 @@ test("ships product assets and GitHub Pages metadata", async () => {
     access(new URL("../dist/styleport-icon.png", import.meta.url)),
     access(new URL("../dist/og.png", import.meta.url)),
     access(new URL("../dist/press/import-style.png", import.meta.url)),
+    access(new URL("../dist/assets/theme.js", import.meta.url)),
+    access(new URL("../dist/relaybyte-symbol.svg", import.meta.url)),
     access(new URL("../dist/CNAME", import.meta.url)),
     access(new URL("../dist/.nojekyll", import.meta.url)),
     access(new URL("../dist/404.html", import.meta.url)),

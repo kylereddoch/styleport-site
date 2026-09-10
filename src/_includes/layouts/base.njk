@@ -6,10 +6,10 @@
     <title>{{ title }}</title>
     <meta name="description" content="{{ description or site.description }}">
     <meta name="robots" content="index, follow">
-    <meta name="color-scheme" content="light">
-    <meta name="theme-color" content="#10152a">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f7f3ed">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-    <link rel="icon" href="{{ '/favicon.svg' | url }}" type="image/svg+xml">
+    <link rel="icon" href="{{ '/styleport-icon.png' | url }}" type="image/png">
     <link rel="apple-touch-icon" href="{{ '/styleport-icon.png' | url }}">
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description or site.description }}">
@@ -22,6 +22,7 @@
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description or site.description }}">
     <meta name="twitter:image" content="{{ site.url }}/og.png">
+    <script src="{{ '/assets/theme.js' | url }}"></script>
     <link rel="stylesheet" href="{{ '/assets/site.css' | url }}">
   </head>
   <body>

@@ -10,6 +10,13 @@
       <a href="{{ '/privacy/' | url }}">Privacy</a>
       <a href="{{ '/press/' | url }}">Press</a>
     </nav>
-    <a class="nav-cta" href="{{ '/#download' | url }}">Get StylePort</a>
+    <div class="header-actions">
+      <a class="nav-cta" href="{{ '/#download' | url }}">Get StylePort</a>
+      <label class="appearance-control" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg>
+        <span class="sr-only">Appearance</span>
+        <select id="appearance" aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
+      </label>
+    </div>
   </div>
 </header>
