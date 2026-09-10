@@ -18,6 +18,7 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
   assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
+  assert.doesNotMatch(html, />Source code</);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
 });
 
