@@ -171,7 +171,9 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .price-card p { color: var(--muted); line-height: 1.55; }
 .support-note { padding: 22px; border-radius: 15px; background: var(--support-surface); }
 .support-note strong { color: var(--violet-dark); }
-.support-note p { margin-bottom: 0; font-size: .86rem; }
+.support-note p { margin-bottom: 18px; font-size: .86rem; }
+.support-button { min-height: 42px; padding-inline: 16px; color: white; background: var(--accent-fill); font-size: .82rem; }
+.support-button:hover { background: var(--accent-fill-hover); transform: translateY(-1px); }
 
 .download-section { padding-block: 100px; color: white; background: linear-gradient(135deg, #3d30b4, var(--accent-fill) 60%, #8a54f1); }
 .download-section .eyebrow { color: var(--cyan); }

@@ -17,6 +17,8 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /content="index, follow"/);
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
+  assert.match(html, /Support StylePort/);
+  assert.match(html, /https:\/\/buy\.stripe\.com\/14AeVd3QHai45bTeSn73G03/);
   assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
   assert.doesNotMatch(html, />Source code</);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
@@ -28,11 +30,16 @@ test("builds every public information route", async () => {
     ["support/index.html", /Start with the simple answer/],
     ["press/index.html", /Everything needed to cover StylePort/],
     ["updates/index.html", /What’s shipping next/],
+    ["thanks/index.html", /You helped keep StylePort moving/],
   ];
   for (const [pathname, expected] of routes) {
     const html = await output(pathname);
     assert.match(html, expected, pathname);
-    if (pathname === "privacy/index.html") assert.match(html, /styleport-appearance/);
+    assert.doesNotMatch(html, /github\.com\/kylereddoch\/styleport/i, pathname);
+    if (pathname === "privacy/index.html") {
+      assert.match(html, /styleport-appearance/);
+      assert.match(html, /Stripe-hosted checkout/);
+    }
   }
 });
 
