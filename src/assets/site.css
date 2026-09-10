@@ -252,15 +252,15 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .timeline-content > p:last-child { color: var(--muted); line-height: 1.7; }
 
 .site-footer { padding-block: 75px 35px; color: #adb4c9; background: #0b0f20; }
-.footer-grid { display: flex; justify-content: space-between; gap: 40px; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; }
 .footer-brand { color: white; }
-.footer-grid p { margin: 16px 0 0; font-size: .87rem; }
-.publisher-credit { color: #8e96ac; line-height: 1.65; }
-.publisher-credit a { display: inline-flex; align-items: center; gap: 4px; color: white; font-weight: 700; }
-.publisher-credit img { width: 25px; height: 25px; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; font-size: .8rem; }
+.footer-top > div > p { margin: 16px 0 0; font-size: .87rem; }
+.publisher-credit { margin: 6px 0 0; color: #8e96ac; font-size: .75rem; line-height: 1.8; text-align: right; }
+.publisher-brand { display: inline-flex; align-items: center; gap: 3px; color: white; font-weight: 700; vertical-align: middle; white-space: nowrap; }
+.publisher-brand img { width: 25px; height: 25px; flex: 0 0 auto; margin-inline: -3px; }
+.footer-bottom { margin-top: 60px; padding-top: 22px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px; border-top: 1px solid #252b41; color: #6f778f; font-size: .7rem; }
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; align-items: center; color: #adb4c9; font-size: .8rem; }
 .footer-links a:hover { color: var(--cyan); }
-.footer-fineprint { margin-top: 60px; padding-top: 22px; display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid #252b41; color: #6f778f; font-size: .7rem; }
 
 @media (max-width: 980px) {
   .nav-shell nav { display: none; }
@@ -317,7 +317,9 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   .install-guide ol, .asset-grid, .attribution-note { grid-template-columns: 1fr; }
   .icon-asset { grid-column: auto; }
   .timeline-item { grid-template-columns: 1fr; gap: 18px; padding-left: 28px; }
-  .footer-grid, .footer-fineprint { flex-direction: column; }
+  .footer-top { flex-direction: column; gap: 19px; }
+  .publisher-credit { text-align: left; }
+  .footer-bottom { grid-template-columns: 1fr; }
   .footer-links { gap: 18px; }
 }
 

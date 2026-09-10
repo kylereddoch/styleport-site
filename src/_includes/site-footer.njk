@@ -1,22 +1,22 @@
 <footer class="site-footer">
-  <div class="shell footer-grid">
+  <div class="shell footer-top">
     <div>
       <a class="brand footer-brand" href="{{ '/' | url }}">
         <img src="{{ '/styleport-icon.png' | url }}" alt="" width="38" height="38">
         <span>StylePort</span>
       </a>
       <p>Bring your style to the web.</p>
-      <p class="publisher-credit">A <a href="{{ site.publisherUrl }}"><img src="{{ '/relaybyte-symbol.svg' | url }}" alt="" width="25" height="25"><span>{{ site.publisherBrand }}</span></a> app.<br>Made by Kyle Reddoch.</p>
     </div>
-    <div class="footer-links">
+    <p class="publisher-credit">A <a href="{{ site.publisherUrl }}"><span class="publisher-brand"><img src="{{ '/relaybyte-symbol.svg' | url }}" alt="" width="25" height="25"><span>{{ site.publisherBrand }}</span></span></a> app.<br>Made by Kyle Reddoch.</p>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {{ site.year }} {{ site.publisherBrand }} and StylePort contributors.</span>
+    <nav class="footer-links" aria-label="Footer navigation">
       <a href="{{ '/privacy/' | url }}">Privacy</a>
       <a href="{{ '/support/' | url }}">Support</a>
       <a href="{{ '/updates/' | url }}">Updates</a>
       <a href="{{ '/press/' | url }}">Press kit</a>
-    </div>
-  </div>
-  <div class="shell footer-fineprint">
-    <span>© {{ site.year }} {{ site.publisherBrand }} and StylePort contributors.</span>
+    </nav>
     <span>GPL-3.0 · Based on the Stylus engine with attribution.</span>
   </div>
 </footer>
