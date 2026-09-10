@@ -22,8 +22,8 @@
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description or site.description }}">
     <meta name="twitter:image" content="{{ site.url }}/og.png">
-    <script src="{{ '/assets/theme.js' | url }}"></script>
-    <link rel="stylesheet" href="{{ '/assets/site.css' | url }}">
+    <script src="{{ '/assets/theme.js' | url }}?v={{ site.assetVersion }}"></script>
+    <link rel="stylesheet" href="{{ '/assets/site.css' | url }}?v={{ site.assetVersion }}">
   </head>
   <body>
     <div class="development-banner" role="status">

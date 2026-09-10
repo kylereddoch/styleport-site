@@ -22,6 +22,7 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /class="shell footer-top"/);
   assert.match(html, /class="publisher-brand"/);
   assert.match(html, /class="shell footer-bottom"/);
+  assert.match(html, /\/assets\/site\.css\?v=20260910-1/);
   assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
   assert.doesNotMatch(html, />Source code</);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
