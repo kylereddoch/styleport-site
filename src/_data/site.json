@@ -4,8 +4,9 @@
   "description": "A private, Safari-first manager for importing, configuring, editing, and applying your own CSS and UserCSS themes.",
   "publisherBrand": "RelayByte",
   "publisherUrl": "https://relaybyte.dev",
+  "supportEmail": "styleport@relaybyte.dev",
   "supportUrl": "https://buy.stripe.com/14AeVd3QHai45bTeSn73G03",
-  "assetVersion": "20260910-1",
+  "assetVersion": "20260911-1",
   "year": 2026,
   "development": true
 }

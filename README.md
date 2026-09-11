@@ -5,7 +5,7 @@ for Safari.
 
 This repository is intentionally separate from the StylePort application and
 extension source. It contains the marketing site, privacy policy, support
-documentation, release notes, and press kit.
+documentation, product roadmap, and press kit.
 
 ## Website stack
 

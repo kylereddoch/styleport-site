@@ -22,7 +22,9 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /class="shell footer-top"/);
   assert.match(html, /class="publisher-brand"/);
   assert.match(html, /class="shell footer-bottom"/);
-  assert.match(html, /\/assets\/site\.css\?v=20260910-1/);
+  assert.match(html, /\/assets\/site\.css\?v=20260911-1/);
+  assert.match(html, />Press Kit</);
+  assert.match(html, /href="\/roadmap\/">Roadmap</);
   assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
   assert.doesNotMatch(html, />Source code</);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
@@ -33,7 +35,7 @@ test("builds every public information route", async () => {
     ["privacy/index.html", /Your styles stay yours/],
     ["support/index.html", /Start with the simple answer/],
     ["press/index.html", /Everything needed to cover StylePort/],
-    ["updates/index.html", /What’s shipping next/],
+    ["roadmap/index.html", /Where StylePort is headed/],
     ["thanks/index.html", /You helped keep StylePort moving/],
   ];
   for (const [pathname, expected] of routes) {
@@ -43,8 +45,15 @@ test("builds every public information route", async () => {
     if (pathname === "privacy/index.html") {
       assert.match(html, /styleport-appearance/);
       assert.match(html, /Stripe-hosted checkout/);
+      assert.match(html, /mailto:styleport@relaybyte\.dev/);
     }
   }
+});
+
+test("keeps the former updates URL as a roadmap redirect", async () => {
+  const html = await output("updates/index.html");
+  assert.match(html, /url=\/roadmap\//);
+  assert.match(html, /content="noindex, follow"/);
 });
 
 test("ships product assets and GitHub Pages metadata", async () => {
