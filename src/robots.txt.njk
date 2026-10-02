@@ -5,4 +5,4 @@ eleventyExcludeFromCollections: true
 User-agent: *
 Allow: /
 
-Sitemap: https://styleport.app/sitemap.xml
+Sitemap: {{ '/sitemap.xml' | absoluteUrl(site.url) }}

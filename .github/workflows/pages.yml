@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Eleventy site
-        run: npm run build
+      - name: Build and validate Eleventy site
+        run: npm test
         env:
           ELEVENTY_PATH_PREFIX: ${{ steps.pages.outputs.base_path }}/
 

@@ -1,7 +1,15 @@
 {
   "name": "StylePort",
   "url": "https://styleport.app",
-  "description": "A private, Safari-first manager for importing, configuring, editing, and applying your own CSS and UserCSS themes.",
+  "description": "StylePort is a free, open-source CSS and UserCSS manager for Safari on Mac. Customize website themes with local storage and no tracking. In development.",
+  "developerName": "Kyle Reddoch",
+  "socialImage": {
+    "path": "/social/styleport-og-20261002.png",
+    "width": 1200,
+    "height": 630,
+    "type": "image/png",
+    "alt": "StylePort app icon with the words UserCSS for Safari and The web, wearing your colors."
+  },
   "publisherBrand": "RelayByte",
   "publisherUrl": "https://relaybyte.dev",
   "supportEmail": "styleport@relaybyte.dev",

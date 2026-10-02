@@ -33,6 +33,9 @@ npm run build
 Run `npm test` to build the site and verify every public route and required
 asset.
 
+Search metadata, social sharing assets, automated checks, and the post-deployment
+indexing checklist are documented in [the SEO guide](docs/seo.md).
+
 ## GitHub Pages and styleport.app
 
 Pushes to `main` build and deploy the site through `.github/workflows/pages.yml`.

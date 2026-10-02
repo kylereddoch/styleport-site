@@ -8,13 +8,13 @@ async function output(pathname) {
 
 test("builds the StylePort product page", async () => {
   const html = await output("index.html");
-  assert.match(html, /<title>StylePort — UserCSS for Safari<\/title>/i);
+  assert.match(html, /<title>StylePort — CSS &amp; UserCSS Manager for Safari on Mac<\/title>/i);
   assert.match(html, /The web,/);
   assert.match(html, /wearing your colors/);
   assert.match(html, /Free means the whole app/);
   assert.match(html, /Coming soon/);
   assert.match(html, /Development preview/);
-  assert.match(html, /content="index, follow"/);
+  assert.match(html, /content="index, follow, max-image-preview:large"/);
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
   assert.match(html, /Support StylePort/);
