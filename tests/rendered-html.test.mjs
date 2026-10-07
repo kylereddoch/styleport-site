@@ -22,10 +22,13 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /class="shell footer-top"/);
   assert.match(html, /class="publisher-brand"/);
   assert.match(html, /class="shell footer-bottom"/);
-  assert.match(html, /\/assets\/site\.css\?v=20260911-1/);
+  assert.match(html, /\/assets\/site\.css\?v=20261007-2/);
+  assert.match(html, /\/press\/import-style\.png\?v=20261007-2/);
+  assert.match(html, /width="3448" height="2034"/);
   assert.match(html, />Press Kit</);
   assert.match(html, /href="\/roadmap\/">Roadmap</);
-  assert.match(html, /rel="icon" href="\/styleport-icon\.png"/);
+  assert.match(html, /rel="icon" href="\/brand\/styleport\/app\/styleport-app-32\.png"/);
+  assert.match(html, /A <a[^>]+><span class="publisher-brand">[\s\S]*<\/span><\/a> app by Kyle Reddoch\./);
   assert.doesNotMatch(html, />Source code</);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
 });
@@ -61,7 +64,14 @@ test("ships product assets and GitHub Pages metadata", async () => {
     access(new URL("../dist/styleport-icon.png", import.meta.url)),
     access(new URL("../dist/og.png", import.meta.url)),
     access(new URL("../dist/press/import-style.png", import.meta.url)),
+    access(new URL("../dist/press/style-manager.png", import.meta.url)),
+    access(new URL("../dist/brand/styleport/logo/styleport-lockup-light.svg", import.meta.url)),
+    access(new URL("../dist/brand/styleport/logo/styleport-lockup-dark.svg", import.meta.url)),
+    access(new URL("../dist/brand/styleport/app/styleport-app-1024.png", import.meta.url)),
+    access(new URL("../dist/press/styleport-brand-assets.zip", import.meta.url)),
     access(new URL("../dist/assets/theme.js", import.meta.url)),
+    access(new URL("../dist/assets/fonts/Manrope-Variable.ttf", import.meta.url)),
+    access(new URL("../dist/assets/fonts/Manrope-OFL.txt", import.meta.url)),
     access(new URL("../dist/relaybyte-symbol.svg", import.meta.url)),
     access(new URL("../dist/CNAME", import.meta.url)),
     access(new URL("../dist/.nojekyll", import.meta.url)),
@@ -70,4 +80,12 @@ test("ships product assets and GitHub Pages metadata", async () => {
   assert.equal((await output("CNAME")).trim(), "styleport.app");
   assert.match(await output("robots.txt"), /Allow: \/$/m);
   assert.doesNotMatch(await output("robots.txt"), /Disallow/);
+});
+
+test("ships the self-hosted brand typography without external font requests", async () => {
+  const css = await output("assets/site.css");
+  assert.match(css, /font-family: "Manrope"/);
+  assert.match(css, /url\("\/assets\/fonts\/Manrope-Variable\.woff2"\)/);
+  assert.doesNotMatch(css, /fonts\.(googleapis|gstatic)\.com/);
+  assert.match(await output("press/index.html"), /Layered Portal/);
 });
