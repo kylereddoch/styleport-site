@@ -48,6 +48,13 @@ test("builds every public information route", async () => {
     if (pathname === "privacy/index.html") {
       assert.match(html, /styleport-appearance/);
       assert.match(html, /Stripe-hosted checkout/);
+      assert.match(html, /RevenueCat is initialized only when you open the native tip jar/);
+      assert.match(html, /purchase history used for app functionality and purchase analytics/);
+      assert.match(html, /Apple’s In-App Purchase system and RevenueCat/);
+      assert.match(html, /website payment is separate from the native app’s Apple and RevenueCat tip jar/);
+      assert.match(html, /does not currently operate a waitlist or email signup form/);
+      assert.match(html, /Effective October 7, 2026/);
+      assert.doesNotMatch(html, /lists no collected data types/);
       assert.match(html, /mailto:styleport@relaybyte\.dev/);
     }
   }
