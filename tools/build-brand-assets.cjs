@@ -25,9 +25,9 @@ async function buildSocialCard() {
           <stop offset="1" stop-color="#FB7185"/>
         </linearGradient>
       </defs>
-      <rect width="1200" height="630" rx="36" fill="#111522"/>
-      <rect width="1200" height="630" rx="36" fill="url(#mint)"/>
-      <rect width="1200" height="630" rx="36" fill="url(#violet)"/>
+      <rect width="1200" height="630" fill="#111522"/>
+      <rect width="1200" height="630" fill="url(#mint)"/>
+      <rect width="1200" height="630" fill="url(#violet)"/>
       <rect x="50" y="48" width="1100" height="4" rx="2" fill="url(#rule)"/>
       <text x="555" y="254" fill="#FFFFFF" font-family="Manrope, Arial, sans-serif" font-size="86" font-weight="800" letter-spacing="-4">StylePort</text>
       <text x="558" y="318" fill="#B9C1D0" font-family="Manrope, Arial, sans-serif" font-size="30" font-weight="500">UserCSS for Safari</text>
@@ -44,7 +44,7 @@ async function buildSocialCard() {
     .png({ compressionLevel: 9, adaptiveFiltering: true })
     .toBuffer();
   await Promise.all([
-    fs.writeFile(path.join(root, 'public/social/styleport-og-20261007.png'), socialCard),
+    fs.writeFile(path.join(root, 'public/social/styleport-og-20261007-full-bleed.png'), socialCard),
     fs.writeFile(path.join(root, 'public/og.png'), socialCard),
   ]);
 }
