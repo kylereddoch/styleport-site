@@ -83,6 +83,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   text-transform: uppercase;
 }
 .development-banner p { margin: 0; color: #d7dbea; }
+.development-banner a { color: white; font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
 
 .site-header {
   position: sticky;
@@ -200,8 +201,11 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 .download-card img { width: 64px; border-radius: 15px; }
 .download-card div { display: flex; flex-direction: column; gap: 5px; }
 .download-card div span { color: #9ea5bd; font-size: .77rem; }
-.download-card button { padding: 10px 13px; color: #d7d9e3; background: #343a52; border: 0; border-radius: 10px; font-size: .78rem; }
 .download-card a { grid-column: 2 / -1; color: var(--cyan); font-size: .8rem; font-weight: 650; }
+.download-card .beta-button { grid-column: auto; min-height: 42px; padding-inline: 15px; color: white; background: var(--accent-fill); white-space: nowrap; }
+.download-card .beta-button:hover { background: var(--accent-fill-hover); transform: translateY(-1px); }
+.download-card .download-note { grid-column: 2 / -1; margin: 0; color: #aeb5ca; font-size: .76rem; line-height: 1.55; }
+.download-card .download-roadmap { grid-column: 2 / -1; }
 
 .page-intro { padding-block: 115px 80px; border-bottom: 1px solid var(--line); }
 .page-intro h1 { max-width: 880px; }
@@ -351,8 +355,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   .support-note { grid-column: auto; }
   .download-card { grid-template-columns: 56px 1fr; }
   .download-card img { width: 56px; }
-  .download-card button { grid-column: 1 / -1; }
-  .download-card a { grid-column: 1 / -1; }
+  .download-card .beta-button, .download-card .download-note, .download-card .download-roadmap { grid-column: 1 / -1; }
   .page-intro { padding-block: 75px 55px; }
   .prose section { grid-template-columns: 1fr; gap: 18px; }
   .prose h2, .prose p { grid-column: 1; grid-row: auto; }

@@ -12,8 +12,13 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /The web,/);
   assert.match(html, /wearing your colors/);
   assert.match(html, /Free means the whole app/);
-  assert.match(html, /Coming soon/);
+  assert.match(html, /Join TestFlight/);
+  assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
+  assert.match(html, /StylePort is still in development/);
+  assert.match(html, /Safari on Mac · macOS 14\+/);
+  assert.match(html, /A direct download is not available yet/);
   assert.match(html, /Development preview/);
+  assert.match(html, /The public TestFlight beta is open/);
   assert.match(html, /content="index, follow, max-image-preview:large"/);
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
@@ -30,6 +35,7 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /rel="icon" href="\/brand\/styleport\/app\/styleport-app-32\.png"/);
   assert.match(html, /A <a[^>]+><span class="publisher-brand">[\s\S]*<\/span><\/a> app by Kyle Reddoch\./);
   assert.doesNotMatch(html, />Source code</);
+  assert.doesNotMatch(html, /href="[^"]+\.dmg/);
   assert.doesNotMatch(html, /Enter the shared password|noindex/i);
 });
 
@@ -56,6 +62,10 @@ test("builds every public information route", async () => {
       assert.match(html, /Effective October 7, 2026/);
       assert.doesNotMatch(html, /lists no collected data types/);
       assert.match(html, /mailto:styleport@relaybyte\.dev/);
+    }
+    if (pathname === "support/index.html") {
+      assert.match(html, /Join the StylePort TestFlight beta/);
+      assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
     }
   }
 });
