@@ -39,7 +39,7 @@
     <div class="development-banner" role="status">
       <span>{% if directRelease.available %}Now available{% else %}Development preview{% endif %}</span>
       {% if directRelease.available %}
-      <p><a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">StylePort {{ directRelease.version }} ({{ directRelease.build }}) is available as a signed direct download</a>; the public TestFlight beta remains open.</p>
+      <p><a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">StylePort {{ directRelease.version }} is available as a signed direct download</a>; the public TestFlight beta remains open.</p>
       {% else %}
       <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">The public TestFlight beta is open</a>; direct downloads are not available yet.</p>
       {% endif %}

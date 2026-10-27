@@ -19,7 +19,7 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
   assert.match(html, /macOS 14\+/);
   if (directRelease.available) {
-    assert.match(html, /StylePort [\d.]+ \(\d+\) is available as a signed direct download/);
+    assert.match(html, /StylePort [\d.]+ is available as a signed direct download/);
     assert.match(html, new RegExp(`StylePort ${directRelease.version}`));
     assert.match(html, new RegExp(`Build ${directRelease.build}`));
     assert.match(html, /Download signed ZIP/);
