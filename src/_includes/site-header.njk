@@ -13,11 +13,18 @@
     </nav>
     <div class="header-actions">
       <a class="nav-cta" href="{{ '/#download' | url }}" data-tinylytics-event="cta.download" data-tinylytics-event-value="header">Get StylePort</a>
-      <label class="appearance-control" hidden>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg>
-        <span class="sr-only">Appearance</span>
-        <select id="appearance" aria-label="Color theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select>
-      </label>
+      <div class="appearance-control" hidden>
+        <button class="appearance-trigger" id="appearance" type="button" aria-label="Color theme: System" aria-haspopup="menu" aria-expanded="false" aria-controls="appearance-menu">
+          <svg class="appearance-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg>
+          <span data-appearance-label>System</span>
+          <svg class="appearance-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 5 4 4 4-4"/></svg>
+        </button>
+        <div class="appearance-menu" id="appearance-menu" role="menu" aria-label="Color theme" hidden>
+          <button type="button" role="menuitemradio" aria-checked="true" data-appearance-value="system"><span>System</span><svg class="appearance-check" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 7.5 3 3 6-6"/></svg></button>
+          <button type="button" role="menuitemradio" aria-checked="false" data-appearance-value="light" tabindex="-1"><span>Light</span><svg class="appearance-check" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 7.5 3 3 6-6"/></svg></button>
+          <button type="button" role="menuitemradio" aria-checked="false" data-appearance-value="dark" tabindex="-1"><span>Dark</span><svg class="appearance-check" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 7.5 3 3 6-6"/></svg></button>
+        </div>
+      </div>
     </div>
   </div>
 </header>

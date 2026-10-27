@@ -44,8 +44,8 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /class="shell footer-top"/);
   assert.match(html, /class="publisher-brand"/);
   assert.match(html, /class="shell footer-bottom"/);
-  assert.match(html, /\/assets\/site\.css\?v=20261007-2/);
-  assert.match(html, /\/press\/import-style\.png\?v=20261007-2/);
+  assert.match(html, /\/assets\/site\.css\?v=20261027-1/);
+  assert.match(html, /\/press\/import-style\.png\?v=20261027-1/);
   assert.match(html, /width="3448" height="2034"/);
   assert.match(html, />Press Kit</);
   assert.match(html, /href="\/roadmap\/">Roadmap</);
