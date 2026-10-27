@@ -1,16 +1,34 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import {
   importCandidate,
+  releaseArchiveEntryIsAllowed,
   sha256,
   validateCandidate,
 } from "../tools/import-direct-release.mjs";
 
 const policy = JSON.parse(await readFile(
   new URL("../config/direct-release-policy.json", import.meta.url), "utf8"));
+
+test("allows only StylePort.app and its corresponding AppleDouble metadata", () => {
+  for (const entry of [
+    "StylePort.app/",
+    "StylePort.app/Contents/Info.plist",
+    "__MACOSX/",
+    "__MACOSX/StylePort.app/",
+    "__MACOSX/StylePort.app/Contents/Resources/",
+    "__MACOSX/StylePort.app/Contents/Resources/._Icon.png",
+  ]) assert.equal(releaseArchiveEntryIsAllowed(entry), true, entry);
+  for (const entry of [
+    "Other.app/",
+    "README.txt",
+    "__MACOSX/Other.app/Contents/._Info.plist",
+    "__MACOSX/StylePort.app/Contents/Resources/payload.txt",
+  ]) assert.equal(releaseArchiveEntryIsAllowed(entry), false, entry);
+});
 
 async function temporaryDirectory(prefix) {
   return mkdtemp(path.join(os.tmpdir(), prefix));
@@ -29,7 +47,12 @@ function embeddedInfo(version, build) {
   };
 }
 
-async function candidateFixture({ approved = true, version = "1.0.0", build = "2" } = {}) {
+async function candidateFixture({
+  approved = true,
+  version = "1.0.0",
+  build = "2",
+  releaseNotesLengthOffset = 0,
+} = {}) {
   const root = await temporaryDirectory("styleport-candidate-");
   const archive = `StylePort-${version}-${build}.zip`;
   const checksum = `${archive}.sha256`;
@@ -41,9 +64,10 @@ async function candidateFixture({ approved = true, version = "1.0.0", build = "2
   const sourceBytes = Buffer.from(`synthetic corresponding GPL source ${version}-${build}`);
   const archiveHash = sha256(archiveBytes);
   const sourceHash = sha256(sourceBytes);
+  const notesSignature = "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC==";
   const appcastBytes = Buffer.from(`<?xml version="1.0" standalone="yes"?><!-- sparkle-sign-warning:
 signed fixture
---><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0"><channel><title>StylePort</title><item><title>${version}</title><sparkle:version>${build}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><sparkle:minimumSystemVersion>${policy.minimumSystemVersion}</sparkle:minimumSystemVersion><sparkle:releaseNotesLink>${policy.releaseNotesBaseUrl}${releaseNotes}</sparkle:releaseNotesLink><enclosure url="${policy.downloadBaseUrl}${archive}" length="${archiveBytes.length}" type="application/octet-stream" sparkle:edSignature="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="></enclosure></item></channel></rss><!-- sparkle-signatures:
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0"><channel><title>StylePort</title><item><title>${version}</title><sparkle:version>${build}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><sparkle:minimumSystemVersion>${policy.minimumSystemVersion}</sparkle:minimumSystemVersion><sparkle:releaseNotesLink sparkle:edSignature="${notesSignature}" sparkle:length="${notesBytes.length + releaseNotesLengthOffset}">${policy.releaseNotesBaseUrl}${releaseNotes}</sparkle:releaseNotesLink><enclosure url="${policy.downloadBaseUrl}${archive}" length="${archiveBytes.length}" type="application/octet-stream" sparkle:edSignature="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="></enclosure></item></channel></rss><!-- sparkle-signatures:
 edSignature: BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB==
 length: 1
 -->`);
@@ -177,6 +201,10 @@ test("imports approved bytes unchanged and activates matching release metadata",
     assert.equal(signatureChecks.length, 1);
     assert.equal(signatureChecks[0].archiveSignature,
       "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==");
+    assert.equal(signatureChecks[0].releaseNotesSignature,
+      "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC==");
+    assert.equal(signatureChecks[0].releaseNotes,
+      await realpath(path.join(fixture.root, fixture.approval.releaseNotes)));
     assert.deepEqual(await readFile(path.join(siteRoot, "public/updates/appcast.xml")),
       fixture.appcastBytes);
     assert.deepEqual(await readFile(path.join(siteRoot, "public/downloads", fixture.approval.archive)),
@@ -201,6 +229,24 @@ test("imports approved bytes unchanged and activates matching release metadata",
       sourceSha256: fixture.approval.sourceSha256,
       sourceChecksumPath: "/downloads/StylePort-1.0.0-2-source.tar.gz.sha256",
     });
+  } finally {
+    await Promise.all([rm(siteRoot, { recursive: true }), rm(fixture.root, { recursive: true })]);
+  }
+});
+
+test("refuses signed release notes whose declared length does not match", async () => {
+  const siteRoot = await temporaryDirectory("styleport-site-");
+  const fixture = await candidateFixture({ releaseNotesLengthOffset: 1 });
+  try {
+    await assert.rejects(validateCandidate({
+      candidate: fixture.root,
+      approvalPath: fixture.approvalPath,
+      siteRoot,
+      policy,
+      archiveInspector: () => embeddedInfo("1.0.0", "2"),
+      sourceInspector: () => {},
+      signatureVerifier: () => {},
+    }), /release-notes length does not match/);
   } finally {
     await Promise.all([rm(siteRoot, { recursive: true }), rm(fixture.root, { recursive: true })]);
   }

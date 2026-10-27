@@ -206,8 +206,34 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
 
 .download-section { padding-block: 100px; color: white; background: linear-gradient(135deg, #34216d, var(--violet) 62%, #a94e72); }
 .download-section .eyebrow { color: var(--cyan); }
-.download-grid { display: grid; grid-template-columns: 1fr 440px; align-items: center; gap: 90px; }
+.download-grid { display: grid; grid-template-columns: 1fr; gap: 50px; }
 .download-grid > div > p:last-child { max-width: 620px; color: #dfdcff; line-height: 1.7; }
+.release-channels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.release-channel { min-height: 100%; padding: 30px; display: flex; flex-direction: column; gap: 22px; color: #f6f7fb; background: rgba(17, 21, 34, .9); border: 1px solid rgba(255,255,255,.2); border-radius: 22px; box-shadow: 0 20px 50px rgba(20, 10, 70, .28); }
+.channel-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.channel-label { color: var(--cyan); font-family: var(--font-mono); font-size: .7rem; font-weight: 760; letter-spacing: .12em; text-transform: uppercase; }
+.channel-status { padding: 7px 10px; color: #10152a; border-radius: 999px; font-size: .67rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.channel-status.available { background: var(--green); }
+.channel-status.beta { background: #c7b8ff; }
+.channel-product { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 17px; }
+.channel-product img { width: 64px; border-radius: 15px; }
+.channel-product h3 { margin: 0; font-size: 1.35rem; letter-spacing: -.035em; }
+.channel-product p, .release-channel > p, .apple-choice p { margin: 5px 0 0; color: #aeb5ca; line-height: 1.6; }
+.channel-product p { font-size: .77rem; }
+.release-channel > p { margin: 0; }
+.channel-button { width: fit-content; min-height: 46px; margin-top: auto; padding-inline: 18px; color: white; background: var(--accent-fill); }
+.channel-button:hover { background: var(--accent-fill-hover); transform: translateY(-1px); }
+.release-integrity { padding-top: 18px; border-top: 1px solid rgba(255,255,255,.14); }
+.release-integrity summary { cursor: pointer; color: #dfe3ee; font-weight: 720; }
+.release-integrity code { display: block; overflow-wrap: anywhere; margin: 15px 0; padding: 12px; color: #c7b8ff; background: rgba(0,0,0,.22); border-radius: 10px; font-size: .66rem; line-height: 1.55; }
+.release-integrity .download-links { display: flex !important; flex-flow: row wrap !important; gap: 9px 18px !important; }
+.release-integrity .download-links a { color: var(--cyan); font-size: .78rem; font-weight: 680; }
+.apple-choice { display: grid; gap: 16px; }
+.apple-choice > div { padding: 20px; border: 1px solid rgba(255,255,255,.13); border-radius: 15px; background: rgba(255,255,255,.035); }
+.apple-choice strong { display: inline-block; font-size: 1rem; }
+.apple-choice strong + span { float: right; color: var(--cyan); font-family: var(--font-mono); font-size: .65rem; font-weight: 760; letter-spacing: .06em; text-transform: uppercase; }
+.apple-choice p { font-size: .85rem; }
+.apple-choice .channel-button { margin-top: 16px; }
 .download-card { padding: 25px; display: grid; grid-template-columns: 64px 1fr auto; gap: 17px; align-items: center; background: rgba(17, 21, 34, .9); border: 1px solid rgba(255,255,255,.2); border-radius: 20px; box-shadow: 0 20px 50px rgba(20, 10, 70, .28); }
 .download-card img { width: 64px; border-radius: 15px; }
 .download-card div { display: flex; flex-direction: column; gap: 5px; }
@@ -332,6 +358,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   .price-card { grid-template-columns: 1fr 1fr; }
   .support-note { grid-column: 1 / -1; }
   .download-grid { gap: 40px; }
+  .release-channels { grid-template-columns: 1fr; }
   .download-card { max-width: 500px; }
   .support-layout { grid-template-columns: 1fr; }
   .support-card { position: static; }
@@ -369,6 +396,9 @@ a:focus-visible, button:focus-visible, select:focus-visible, summary:focus-visib
   .download-card { grid-template-columns: 56px 1fr; }
   .download-card img { width: 56px; }
   .download-card .beta-button, .download-card .download-note, .download-card .download-roadmap, .download-links { grid-column: 1 / -1; }
+  .release-channel { padding: 24px; }
+  .channel-product { grid-template-columns: 56px 1fr; }
+  .channel-product img { width: 56px; }
   .page-intro { padding-block: 75px 55px; }
   .prose section { grid-template-columns: 1fr; gap: 18px; }
   .prose h2, .prose p { grid-column: 1; grid-row: auto; }

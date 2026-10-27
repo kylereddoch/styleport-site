@@ -48,7 +48,7 @@ test("outbound, contact, and download links have meaningful events without sendi
       }
     }
   }
-  assert.equal(downloads, directRelease.available ? 8 : 5);
+  assert.equal(downloads, directRelease.available ? 10 : 5);
   assert.equal(betaLinks, 2);
   assert.deepEqual([...seen].sort(), ["app.testflight", "contact.email", "cta.download", "cta.features", "file.download", "link.outbound", "support.checkout"]);
 });

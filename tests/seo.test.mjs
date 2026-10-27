@@ -5,6 +5,8 @@ import { parse } from "parse5";
 import { jsonLd, structuredData } from "../lib/seo.js";
 
 const site = JSON.parse(await readFile(new URL("../src/_data/site.json", import.meta.url)));
+const directRelease = JSON.parse(await readFile(
+  new URL("../src/_data/directRelease.json", import.meta.url), "utf8"));
 const routes = ["/", "/privacy/", "/support/", "/press/", "/roadmap/"];
 const fileFor = (route) => new URL(`../dist${route}${route.endsWith("/") ? "index.html" : ""}`, import.meta.url);
 const attr = (node, name) => node.attrs?.find((entry) => entry.name === name)?.value;
@@ -76,7 +78,7 @@ test("utility pages remain crawlable but cannot be indexed or appear in the site
   assert.equal(attr(all(redirect, "link")[0], "href"), `${site.url}/roadmap/`);
 });
 
-test("structured data parses, matches page content, and preserves prerelease and developer identity", async () => {
+test("structured data parses, matches page content, and preserves release and developer identity", async () => {
   for (const route of routes) {
     const doc = await page(route);
     const scripts = all(doc, "script").filter((node) => attr(node, "type") === "application/ld+json");
@@ -96,8 +98,13 @@ test("structured data parses, matches page content, and preserves prerelease and
     const app = graph.find((entry) => entry["@type"] === "SoftwareApplication");
     if (route === "/") {
       assert.equal(app.operatingSystem, "macOS 14 or newer");
-      assert.match(app.description, /In development/);
-      for (const key of ["offers", "aggregateRating", "review", "downloadUrl", "installUrl", "softwareVersion"])
+      if (directRelease.available) {
+        assert.equal(app.softwareVersion, directRelease.version);
+        assert.equal(app.downloadUrl, `${site.url}${directRelease.archivePath}`);
+        assert.equal(app.releaseNotes, `${site.url}${directRelease.releaseNotesPath}`);
+        assert.deepEqual(app.offers, { "@type": "Offer", price: "0", priceCurrency: "USD" });
+      }
+      for (const key of ["aggregateRating", "review", "installUrl"])
         assert.equal(app[key], undefined, `no unverified ${key}`);
     } else assert.equal(app, undefined);
   }

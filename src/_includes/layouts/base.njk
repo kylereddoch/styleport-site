@@ -31,15 +31,15 @@
     <meta name="twitter:description" content="{{ (description or site.description) | escape }}">
     <meta name="twitter:image" content="{{ site.socialImage.path | absoluteUrl(site.url) | escape }}">
     <meta name="twitter:image:alt" content="{{ site.socialImage.alt | escape }}">
-    {% if not noindex %}<script type="application/ld+json">{{ site | structuredData(title, description, page.url) | safe }}</script>{% endif %}
+    {% if not noindex %}<script type="application/ld+json">{{ site | structuredData(title, description, page.url, directRelease) | safe }}</script>{% endif %}
     <script src="{{ '/assets/theme.js' | url }}?v={{ site.assetVersion }}"></script>
     <link rel="stylesheet" href="{{ '/assets/site.css' | url }}?v={{ site.assetVersion }}">
   </head>
   <body>
     <div class="development-banner" role="status">
-      <span>Development preview</span>
+      <span>{% if directRelease.available %}Now available{% else %}Development preview{% endif %}</span>
       {% if directRelease.available %}
-      <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">Direct download {{ directRelease.version }} ({{ directRelease.build }}) and the public TestFlight beta are available</a>.</p>
+      <p><a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">StylePort {{ directRelease.version }} ({{ directRelease.build }}) is available as a signed direct download</a>; the public TestFlight beta remains open.</p>
       {% else %}
       <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">The public TestFlight beta is open</a>; direct downloads are not available yet.</p>
       {% endif %}

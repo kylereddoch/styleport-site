@@ -17,16 +17,25 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /Free means the whole app/);
   assert.match(html, /Join TestFlight/);
   assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
-  assert.match(html, /Safari on Mac · macOS 14\+/);
+  assert.match(html, /macOS 14\+/);
   if (directRelease.available) {
-    assert.match(html, /Direct download [\d.]+ \(\d+\) and the public TestFlight beta are available/);
+    assert.match(html, /StylePort [\d.]+ \(\d+\) is available as a signed direct download/);
     assert.match(html, new RegExp(`StylePort ${directRelease.version}`));
     assert.match(html, new RegExp(`Build ${directRelease.build}`));
-    assert.match(html, /Download ZIP/);
-    assert.match(html, /Corresponding GPL source/);
+    assert.match(html, /Download signed ZIP/);
+    assert.match(html, /Direct from RelayByte/);
+    assert.match(html, /Through Apple/);
+    assert.match(html, /TestFlight beta/);
+    assert.match(html, /Mac App Store/);
+    assert.match(html, /Coming soon/);
+    assert.doesNotMatch(html, /apps\.apple\.com/);
+    assert.match(html, /GPL source/);
+    assert.match(html, /Source checksum/);
+    assert.match(html, /Signed update feed/);
     assert.match(html, new RegExp(directRelease.archivePath));
     assert.match(html, new RegExp(directRelease.releaseNotesPath));
     assert.match(html, new RegExp(directRelease.sourcePath));
+    assert.match(html, new RegExp(directRelease.sourceChecksumPath));
   } else {
     assert.match(html, /StylePort is still in development/);
     assert.match(html, /The public TestFlight beta is open/);
@@ -35,7 +44,7 @@ test("builds the StylePort product page", async () => {
     assert.doesNotMatch(html, /Corresponding GPL source/);
     assert.doesNotMatch(html, /\/downloads\/StylePort-/);
   }
-  assert.match(html, /Development preview/);
+  assert.match(html, directRelease.available ? /Now available/ : /Development preview/);
   assert.match(html, /content="index, follow, max-image-preview:large"/);
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
@@ -44,8 +53,8 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /class="shell footer-top"/);
   assert.match(html, /class="publisher-brand"/);
   assert.match(html, /class="shell footer-bottom"/);
-  assert.match(html, /\/assets\/site\.css\?v=20261027-1/);
-  assert.match(html, /\/press\/import-style\.png\?v=20261027-1/);
+  assert.match(html, /\/assets\/site\.css\?v=20261027-2/);
+  assert.match(html, /\/press\/import-style\.png\?v=20261027-2/);
   assert.match(html, /width="3448" height="2034"/);
   assert.match(html, />Press Kit</);
   assert.match(html, /href="\/roadmap\/">Roadmap</);

@@ -33,8 +33,11 @@ release-approval.json
 
 The signed appcast must include the exact archive URL, archive byte length,
 Ed25519 enclosure signature, macOS 14.0 minimum, and the canonical release
-notes URL. The source archive must contain the complete corresponding source
-and retained GPL/upstream notices for the distributed binary.
+notes URL. Sparkle's `releaseNotesLink` must also include its generated
+`sparkle:length` and `sparkle:edSignature` attributes; the validator checks the
+HTML byte length and verifies that signature. The source archive must contain
+the complete corresponding source and retained GPL/upstream notices for the
+distributed binary.
 
 Copy `examples/direct-release-approval.json` into the candidate directory only
 after all files are final. Fill in the exact hashes. Set `approved` to `true`,
@@ -54,9 +57,10 @@ The validator refuses missing or unapproved candidates, unsafe paths, changed
 hashes, mismatched version/build values, a missing GPL source archive, a feed
 without release notes, build 1, and updater settings that weaken signed-feed or
 privacy guarantees. It also checks that the source archive contains a license,
-`package.json`, and the source tree. It calls Sparkle 2.10.0's `sign_update` to verify both the
-embedded feed signature and the archive's Ed25519 enclosure signature. Pass a
-different official tools directory with `--sparkle-bin` when needed.
+`package.json`, and the source tree. It calls Sparkle 2.10.0's `sign_update` to
+verify the embedded feed signature, the archive's Ed25519 enclosure signature,
+and the release-notes Ed25519 signature. Pass a different official tools
+directory with `--sparkle-bin` when needed.
 
 ## Import locally
 

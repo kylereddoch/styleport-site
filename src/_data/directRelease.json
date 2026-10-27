@@ -1,3 +1,13 @@
 {
-  "available": false
+  "available": true,
+  "version": "1.0.0",
+  "build": "2",
+  "minimumSystemVersion": "14.0",
+  "archivePath": "/downloads/StylePort-1.0.0-2.zip",
+  "archiveSha256": "0c806f3fea3857dc8c312eb927e236868c4899b2fef9a938cad3f813a8691132",
+  "checksumPath": "/downloads/StylePort-1.0.0-2.zip.sha256",
+  "releaseNotesPath": "/updates/release-notes-1.0.0-2.html",
+  "sourcePath": "/downloads/StylePort-1.0.0-2-source.tar.gz",
+  "sourceSha256": "7f05d98bb4451ef864cf70482525596ccab818f385a2dcfe461f1a1100e99c5f",
+  "sourceChecksumPath": "/downloads/StylePort-1.0.0-2-source.tar.gz.sha256"
 }

@@ -48,6 +48,16 @@ function requireHash(value, field) {
     `${field} must be a lowercase SHA-256 digest.`);
 }
 
+function tagElement(body, name, label = name) {
+  const matches = [...body.matchAll(
+    new RegExp(`<${name}(?:\\s+([^>]*))?>([^<]+)</${name}>`, "g"))];
+  requireValue(matches.length === 1, `Signed appcast must contain one ${label}.`);
+  return {
+    attributes: attributes(matches[0][1] || ""),
+    value: matches[0][2].trim(),
+  };
+}
+
 function tag(body, name, label = name) {
   const matches = [...body.matchAll(new RegExp(`<${name}>([^<]+)</${name}>`, "g"))];
   requireValue(matches.length === 1, `Signed appcast must contain one ${label}.`);
@@ -81,7 +91,10 @@ export function validateAppcast(bytes, approval, policy) {
   requireValue(enclosureMatches.length === 1,
     "Release item must contain exactly one enclosure.");
   const enclosure = attributes(enclosureMatches[0][1]);
-  const releaseNotes = tag(item, "sparkle:releaseNotesLink", "release-notes link");
+  const releaseNotesElement = tagElement(item,
+    "sparkle:releaseNotesLink", "release-notes link");
+  const releaseNotes = releaseNotesElement.value;
+  const releaseNotesAttributes = releaseNotesElement.attributes;
   const expectedArchiveUrl = `${policy.downloadBaseUrl}${approval.archive}`;
   const expectedNotesUrl = `${policy.releaseNotesBaseUrl}${approval.releaseNotes}`;
 
@@ -96,6 +109,11 @@ export function validateAppcast(bytes, approval, policy) {
     "Appcast enclosure is missing its Ed25519 signature.");
   requireValue(releaseNotes === expectedNotesUrl,
     `Appcast release-notes URL must be ${expectedNotesUrl}.`);
+  requireValue(/^\d+$/.test(releaseNotesAttributes.get("sparkle:length") || ""),
+    "Appcast release-notes length is missing or invalid.");
+  requireValue(typeof releaseNotesAttributes.get("sparkle:edSignature") === "string"
+      && releaseNotesAttributes.get("sparkle:edSignature").length > 40,
+    "Appcast release notes are missing their Ed25519 signature.");
   requireValue(tag(item, "sparkle:minimumSystemVersion") === policy.minimumSystemVersion,
     `Appcast minimum system version must be ${policy.minimumSystemVersion}.`);
 
@@ -105,9 +123,20 @@ export function validateAppcast(bytes, approval, policy) {
     archiveLength: Number(enclosure.get("length")),
     archiveSignature: enclosure.get("sparkle:edSignature"),
     releaseNotesUrl: expectedNotesUrl,
+    releaseNotesLength: Number(releaseNotesAttributes.get("sparkle:length")),
+    releaseNotesSignature: releaseNotesAttributes.get("sparkle:edSignature"),
     enclosureUrls: [...xml.matchAll(/<enclosure\s+[^>]*url="([^"]+)"[^>]*>/g)]
       .map(match => match[1]),
   };
+}
+
+export function releaseArchiveEntryIsAllowed(entry) {
+  if (entry === "StylePort.app" || entry.startsWith("StylePort.app/")) return true;
+  if (entry === "__MACOSX/") return true;
+  if (!entry.startsWith("__MACOSX/")) return false;
+  const relative = entry.slice("__MACOSX/".length);
+  if (!(relative === "StylePort.app/" || relative.startsWith("StylePort.app/"))) return false;
+  return entry.endsWith("/") || path.basename(relative).startsWith("._");
 }
 
 function inspectArchive(archive) {
@@ -120,7 +149,7 @@ function inspectArchive(archive) {
     const segments = entry.split("/");
     requireValue(!entry.startsWith("/") && !segments.includes(".."),
       `Release ZIP contains an unsafe path: ${entry}.`);
-    requireValue(entry === "StylePort.app" || entry.startsWith("StylePort.app/"),
+    requireValue(releaseArchiveEntryIsAllowed(entry),
       `Release ZIP contains an unexpected top-level path: ${entry}.`);
   }
   requireValue(entries.includes("StylePort.app/Contents/Info.plist"),
@@ -176,13 +205,23 @@ function verifyEmbeddedSettings(info, approval, policy) {
     "Archive must not enable automatic checks before the user opts in.");
 }
 
-function defaultSignatureVerifier({ appcast, archive, archiveSignature, sparkleBin }) {
+function defaultSignatureVerifier({
+  appcast,
+  archive,
+  archiveSignature,
+  releaseNotes,
+  releaseNotesSignature,
+  sparkleBin,
+}) {
   const signer = path.join(sparkleBin, "sign_update");
   execFileSync(signer, ["--account", "dev.relaybyte.styleport", "--verify", appcast], {
     stdio: "inherit",
   });
   execFileSync(signer,
     ["--account", "dev.relaybyte.styleport", "--verify", archive, archiveSignature],
+    { stdio: "inherit" });
+  execFileSync(signer,
+    ["--account", "dev.relaybyte.styleport", "--verify", releaseNotes, releaseNotesSignature],
     { stdio: "inherit" });
 }
 
@@ -319,6 +358,8 @@ export async function validateCandidate({
   const appcast = validateAppcast(bytes.appcast, approval, policy);
   requireValue(appcast.archiveLength === bytes.archive.length,
     "Appcast enclosure length does not match the approved ZIP.");
+  requireValue(appcast.releaseNotesLength === bytes.releaseNotes.length,
+    "Appcast release-notes length does not match the approved HTML.");
   await preserveExistingFeed(siteRoot, appcast);
   verifyEmbeddedSettings(await archiveInspector(files.archive), approval, policy);
   await sourceInspector(files.sourceArchive);
@@ -326,17 +367,22 @@ export async function validateCandidate({
   const protectedHashes = {
     appcast: sha256(bytes.appcast),
     archive: sha256(bytes.archive),
+    releaseNotes: sha256(bytes.releaseNotes),
   };
   await signatureVerifier({
     appcast: files.appcast,
     archive: files.archive,
     archiveSignature: appcast.archiveSignature,
+    releaseNotes: files.releaseNotes,
+    releaseNotesSignature: appcast.releaseNotesSignature,
     sparkleBin,
   });
   requireValue(sha256(await readFile(files.appcast)) === protectedHashes.appcast,
     "Signature verification changed the signed appcast bytes.");
   requireValue(sha256(await readFile(files.archive)) === protectedHashes.archive,
     "Signature verification changed the release archive bytes.");
+  requireValue(sha256(await readFile(files.releaseNotes)) === protectedHashes.releaseNotes,
+    "Signature verification changed the release-notes bytes.");
 
   const metadata = {
     available: true,

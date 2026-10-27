@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>StylePort</title>
+        <item>
+            <title>1.0.0</title>
+            <pubDate>Tue, 27 Oct 2026 16:51:26 -0500</pubDate>
+            <link>https://styleport.app/</link>
+            <sparkle:version>2</sparkle:version>
+            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink sparkle:edSignature="4JAQSKNJxkDUVq7CdgqPqho3CN6I6GbS6UjS0LiA1ySOTA6jsvXms7yz29LLIuD1Qnf8P8su/3nu9TWLnXWzDg==" sparkle:length="1580">https://styleport.app/updates/release-notes-1.0.0-2.html</sparkle:releaseNotesLink>
+            <enclosure url="https://styleport.app/downloads/StylePort-1.0.0-2.zip" length="4573957" type="application/octet-stream" sparkle:edSignature="SvxY81YKBkr18u7w/Ct6AER9Np2QvoPoPWb5xfJsXcfkPhgxgvzjRnKsCy81EYplfJeaTA7rkd7B1vuu0uHxCw=="></enclosure>
+        </item>
+    </channel>
+</rss><!-- sparkle-signatures:
+edSignature: uipCobwilCx87PgmGSaVybivSPJL4WHvzS62rXWHl9iPr0LM0suplv5QEOMVbz1BAy4pmTnNYUf6bwy7FYpZDA==
+length: 1318
+-->
