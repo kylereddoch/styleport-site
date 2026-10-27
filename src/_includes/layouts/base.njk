@@ -38,12 +38,17 @@
   <body>
     <div class="development-banner" role="status">
       <span>Development preview</span>
-      <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download">The public TestFlight beta is open</a>; direct downloads are not available yet.</p>
+      {% if directRelease.available %}
+      <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">Direct download {{ directRelease.version }} ({{ directRelease.build }}) and the public TestFlight beta are available</a>.</p>
+      {% else %}
+      <p>StylePort 1.0 is still being tested. <a href="{{ '/' | url }}#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="banner">The public TestFlight beta is open</a>; direct downloads are not available yet.</p>
+      {% endif %}
     </div>
     {% include "site-header.njk" %}
     <main id="main-content">
       {{ content | safe }}
     </main>
     {% include "site-footer.njk" %}
+    <script src="https://tinylytics.app/embed/tTzAhbA2NvZs7NRThEx9.js?events&amp;beacon" defer></script>
   </body>
 </html>

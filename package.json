@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "test": "npm run build && node --test tests/*.test.mjs"
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "release:validate": "node tools/import-direct-release.mjs --validate-only",
+    "release:import": "node tools/import-direct-release.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "product": "StylePort",
+  "bundleIdentifier": "dev.relaybyte.styleport",
+  "feedUrl": "https://styleport.app/updates/appcast.xml",
+  "downloadBaseUrl": "https://styleport.app/downloads/",
+  "releaseNotesBaseUrl": "https://styleport.app/updates/",
+  "minimumSystemVersion": "14.0",
+  "publicEdKey": "w3BKDT3N9qeMni8SpTqqLtGzhNSK5UudLs7cox0YTcQ=",
+  "minimumBuild": "2",
+  "approvalAuthority": "Kyle Reddoch",
+  "blockedCandidates": [
+    {
+      "version": "1.0.0",
+      "build": "1",
+      "reason": "Superseded development candidate with the known navigation defect."
+    }
+  ]
+}

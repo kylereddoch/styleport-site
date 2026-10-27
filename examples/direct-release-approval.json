@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "approved": false,
+  "approvedBy": "",
+  "approvedAt": "",
+  "version": "1.0.0",
+  "build": "2",
+  "appcast": "appcast.xml",
+  "appcastSha256": "REPLACE_AFTER_SIGNING",
+  "archive": "StylePort-1.0.0-2.zip",
+  "archiveSha256": "REPLACE_AFTER_PACKAGING",
+  "checksum": "StylePort-1.0.0-2.zip.sha256",
+  "releaseNotes": "release-notes-1.0.0-2.html",
+  "releaseNotesSha256": "REPLACE_AFTER_REVIEW",
+  "sourceArchive": "StylePort-1.0.0-2-source.tar.gz",
+  "sourceSha256": "REPLACE_AFTER_EXPORT",
+  "sourceChecksum": "StylePort-1.0.0-2-source.tar.gz.sha256"
+}

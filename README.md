@@ -36,6 +36,22 @@ asset.
 Search metadata, social sharing assets, automated checks, and the post-deployment
 indexing checklist are documented in [the SEO guide](docs/seo.md).
 
+## Website analytics
+
+The shared layout loads Tinylytics with `?events&beacon`, following its
+[event documentation](https://tinylytics.app/docs/analytics/events). Content
+pages count visits; the immediate `/updates/` redirect does not.
+
+Link attributes record `app.testflight`, `support.checkout`, `contact.email`,
+`file.download`, `link.outbound`, `cta.download`, and `cta.features`. Values are
+fixed labels (button placement, destination name, or file name), not visitor
+input. Checkout and TestFlight events measure clicks, not completed payments
+or installations. Keep the website disclosure in `src/privacy.njk` in sync.
+
+Tinylytics may reject localhost embeds. Stub the provider script during browser
+checks to avoid sending preview traffic. Production collection must be verified
+after publication. The app and extension do not use this website embed.
+
 ## GitHub Pages and styleport.app
 
 Pushes to `main` build and deploy the site through `.github/workflows/pages.yml`.
@@ -63,6 +79,11 @@ preview.
 Public download links remain disabled until StylePort has a Developer ID-signed,
 Apple-notarized release artifact. A signed update feed can be added alongside
 the first public release.
+
+The fail-closed website import and deployment process is documented in
+[the direct-release guide](docs/direct-release.md). It requires explicit owner
+approval, exact hashes, Sparkle signature verification, a release-notes file,
+and a corresponding GPL source archive before any direct download can appear.
 
 The website's development history and hosting decisions are recorded in
 `docs/website-history.md`.

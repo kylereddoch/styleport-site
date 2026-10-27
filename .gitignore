@@ -15,6 +15,7 @@
 
 # generated Eleventy site
 /dist/
+/.release-staging/
 
 # misc
 .DS_Store

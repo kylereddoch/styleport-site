@@ -2,6 +2,9 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
+const directRelease = JSON.parse(await readFile(
+  new URL("../src/_data/directRelease.json", import.meta.url), "utf8"));
+
 async function output(pathname) {
   return readFile(new URL(`../dist/${pathname}`, import.meta.url), "utf8");
 }
@@ -14,11 +17,25 @@ test("builds the StylePort product page", async () => {
   assert.match(html, /Free means the whole app/);
   assert.match(html, /Join TestFlight/);
   assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
-  assert.match(html, /StylePort is still in development/);
   assert.match(html, /Safari on Mac · macOS 14\+/);
-  assert.match(html, /A direct download is not available yet/);
+  if (directRelease.available) {
+    assert.match(html, /Direct download [\d.]+ \(\d+\) and the public TestFlight beta are available/);
+    assert.match(html, new RegExp(`StylePort ${directRelease.version}`));
+    assert.match(html, new RegExp(`Build ${directRelease.build}`));
+    assert.match(html, /Download ZIP/);
+    assert.match(html, /Corresponding GPL source/);
+    assert.match(html, new RegExp(directRelease.archivePath));
+    assert.match(html, new RegExp(directRelease.releaseNotesPath));
+    assert.match(html, new RegExp(directRelease.sourcePath));
+  } else {
+    assert.match(html, /StylePort is still in development/);
+    assert.match(html, /The public TestFlight beta is open/);
+    assert.match(html, /A direct download is not available yet/);
+    assert.doesNotMatch(html, /Download ZIP/);
+    assert.doesNotMatch(html, /Corresponding GPL source/);
+    assert.doesNotMatch(html, /\/downloads\/StylePort-/);
+  }
   assert.match(html, /Development preview/);
-  assert.match(html, /The public TestFlight beta is open/);
   assert.match(html, /content="index, follow, max-image-preview:large"/);
   assert.match(html, /id="appearance"/);
   assert.match(html, /RelayByte/);
@@ -57,15 +74,31 @@ test("builds every public information route", async () => {
       assert.match(html, /RevenueCat is initialized only when you open the native tip jar/);
       assert.match(html, /purchase history used for app functionality and purchase analytics/);
       assert.match(html, /Apple’s In-App Purchase system and RevenueCat/);
+      assert.match(html, /The direct-download edition does not include RevenueCat/);
+      assert.match(html, /App updates for direct downloads/);
+      assert.match(html, /automatic checks/);
+      assert.match(html, /IP address and user-agent information identifying the app and updater/);
+      assert.match(html, /Sparkle’s optional system profiling is disabled/);
+      assert.match(html, /does not include your styles, browsing history, or RevenueCat purchase identifiers/);
+      assert.match(html, /Automatic installation is disabled/);
+      assert.match(html, /App Store and TestFlight editions use Apple’s update system and do not include Sparkle/);
       assert.match(html, /website payment is separate from the native app’s Apple and RevenueCat tip jar/);
       assert.match(html, /does not currently operate a waitlist or email signup form/);
-      assert.match(html, /Effective October 7, 2026/);
+      assert.match(html, /Effective October 27, 2026/);
       assert.doesNotMatch(html, /lists no collected data types/);
       assert.match(html, /mailto:styleport@relaybyte\.dev/);
     }
     if (pathname === "support/index.html") {
       assert.match(html, /Join the StylePort TestFlight beta/);
       assert.match(html, /https:\/\/testflight\.apple\.com\/join\/zbXV7SMd/);
+      if (directRelease.available) {
+        assert.doesNotMatch(html, /currently the only available edition/);
+        assert.match(html, /The direct-download edition uses Sparkle/);
+      } else {
+        assert.match(html, /public TestFlight beta is currently the only available edition/);
+        assert.match(html, /future direct-download edition uses Sparkle/);
+      }
+      assert.match(html, /automatic installation stays off/);
     }
   }
 });
@@ -77,7 +110,7 @@ test("keeps the former updates URL as a roadmap redirect", async () => {
 });
 
 test("ships product assets and GitHub Pages metadata", async () => {
-  await Promise.all([
+  const requiredAssets = [
     access(new URL("../dist/styleport-icon.png", import.meta.url)),
     access(new URL("../dist/og.png", import.meta.url)),
     access(new URL("../dist/press/import-style.png", import.meta.url)),
@@ -93,7 +126,18 @@ test("ships product assets and GitHub Pages metadata", async () => {
     access(new URL("../dist/CNAME", import.meta.url)),
     access(new URL("../dist/.nojekyll", import.meta.url)),
     access(new URL("../dist/404.html", import.meta.url)),
-  ]);
+  ];
+  if (directRelease.available) {
+    for (const releasePath of [
+      directRelease.archivePath,
+      directRelease.checksumPath,
+      directRelease.releaseNotesPath,
+      directRelease.sourcePath,
+      directRelease.sourceChecksumPath,
+      "/updates/appcast.xml",
+    ]) requiredAssets.push(access(new URL(`../dist${releasePath}`, import.meta.url)));
+  }
+  await Promise.all(requiredAssets);
   assert.equal((await output("CNAME")).trim(), "styleport.app");
   assert.match(await output("robots.txt"), /Allow: \/$/m);
   assert.doesNotMatch(await output("robots.txt"), /Disallow/);

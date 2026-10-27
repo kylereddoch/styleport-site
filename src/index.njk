@@ -9,8 +9,8 @@ description: StylePort is a free, open-source CSS and UserCSS manager for Safari
     <h1>The web,<span>wearing your colors.</span></h1>
     <p class="hero-lede">Import plain CSS and UserCSS themes, tune their variables, and make the sites you use feel like yours—without handing over your browsing history.</p>
     <div class="hero-actions">
-      <a class="button primary" href="#download">Get StylePort <span aria-hidden="true">↓</span></a>
-      <a class="button secondary" href="#features">See what it does</a>
+      <a class="button primary" href="#download" data-tinylytics-event="cta.download" data-tinylytics-event-value="hero">Get StylePort <span aria-hidden="true">↓</span></a>
+      <a class="button secondary" href="#features" data-tinylytics-event="cta.features" data-tinylytics-event-value="hero">See what it does</a>
     </div>
     <div class="trust-row" aria-label="Product details">
       <span>macOS 14+</span><span>Free &amp; open source</span><span>No account</span>
@@ -77,7 +77,7 @@ description: StylePort is a free, open-source CSS and UserCSS manager for Safari
     <div><p class="eyebrow">Private by design</p><h2>Your browsing is not the product.</h2></div>
     <div class="privacy-points">
       <article><strong>Local storage</strong><p>Your styles and settings stay in Safari extension storage on your Mac.</p></article>
-      <article><strong>No surveillance</strong><p>No behavioral analytics, advertising, cross-app tracking, or StylePort account. Optional tips use purchase reporting only.</p></article>
+      <article><strong>No surveillance</strong><p>The app has no behavioral analytics, advertising, cross-app tracking, or StylePort account. Optional tips use purchase reporting only.</p></article>
       <article><strong>Explainable access</strong><p>Website permission is used only to match and apply the styles you choose.</p></article>
       <a href="{{ '/privacy/' | url }}" class="text-link">Read the complete privacy policy <span>→</span></a>
     </div>
@@ -92,20 +92,39 @@ description: StylePort is a free, open-source CSS and UserCSS manager for Safari
     <div class="support-note">
       <strong>Want to help?</strong>
       <p>Make a voluntary one-time contribution toward signing, hosting, testing, and continued development. Support never unlocks a different edition—the whole app stays free.</p>
-      <a class="button support-button" href="{{ site.supportUrl }}">Support StylePort <span aria-hidden="true">→</span></a>
+      <a class="button support-button" href="{{ site.supportUrl }}" data-tinylytics-event="support.checkout" data-tinylytics-event-value="stripe">Support StylePort <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
 <section class="download-section" id="download">
   <div class="shell download-grid">
+    {% if directRelease.available %}
+    <div><p class="eyebrow">StylePort for Safari</p><h2>Choose the edition that fits your Mac.</h2><p>Download the signed and notarized direct edition, or join the public TestFlight beta. Both are free, target macOS {{ directRelease.minimumSystemVersion }} or later, and include the same core UserCSS features.</p></div>
+    <div class="download-options">
+      <div class="download-card">
+        <img src="{{ '/brand/styleport/app/styleport-app-128.png' | url }}" alt="StylePort app icon" width="64" height="64">
+        <div><strong>StylePort {{ directRelease.version }}</strong><span>Direct download · Build {{ directRelease.build }} · macOS {{ directRelease.minimumSystemVersion }}+</span></div>
+        <a class="button beta-button" href="{{ directRelease.archivePath | url }}" download data-tinylytics-event="file.download" data-tinylytics-event-value="styleport-direct">Download ZIP <span aria-hidden="true">↓</span></a>
+        <p class="download-note">Developer ID signed, Apple notarized, and updated through a signed Sparkle feed. Automatic installation is off.</p>
+        <div class="download-links"><a href="{{ directRelease.releaseNotesPath | url }}">Release notes</a><a href="{{ directRelease.checksumPath | url }}" download data-tinylytics-event="file.download" data-tinylytics-event-value="styleport-direct-checksum">SHA-256</a><a href="{{ directRelease.sourcePath | url }}" download data-tinylytics-event="file.download" data-tinylytics-event-value="styleport-gpl-source">Corresponding GPL source</a></div>
+      </div>
+      <div class="download-card">
+        <img src="{{ '/brand/styleport/app/styleport-app-128.png' | url }}" alt="StylePort app icon" width="64" height="64">
+        <div><strong>StylePort Beta</strong><span>TestFlight · Safari on Mac · macOS 14+</span></div>
+        <a class="button beta-button" href="{{ site.testFlightUrl }}" data-tinylytics-event="app.testflight" data-tinylytics-event-value="safari-mac" target="_blank" rel="noopener noreferrer">Join TestFlight <span aria-hidden="true">↗</span></a>
+        <p class="download-note">Beta software may contain bugs. TestFlight is the Apple-distributed test edition.</p>
+      </div>
+    </div>
+    {% else %}
     <div><p class="eyebrow">Public TestFlight beta</p><h2>Help test StylePort in Safari.</h2><p>StylePort is still in development. Join the public TestFlight beta on a Mac running macOS 14 or later to try version 1.0 and help uncover issues before release.</p></div>
     <div class="download-card">
       <img src="{{ '/brand/styleport/app/styleport-app-128.png' | url }}" alt="StylePort app icon" width="64" height="64">
       <div><strong>StylePort Beta</strong><span>Safari on Mac · macOS 14+</span></div>
-      <a class="button beta-button" href="{{ site.testFlightUrl }}" target="_blank" rel="noopener noreferrer">Join TestFlight <span aria-hidden="true">↗</span></a>
+      <a class="button beta-button" href="{{ site.testFlightUrl }}" data-tinylytics-event="app.testflight" data-tinylytics-event-value="safari-mac" target="_blank" rel="noopener noreferrer">Join TestFlight <span aria-hidden="true">↗</span></a>
       <p class="download-note">Beta software may contain bugs. A direct download is not available yet.</p>
       <a class="download-roadmap" href="{{ '/roadmap/' | url }}">View the roadmap →</a>
     </div>
+    {% endif %}
   </div>
 </section>
