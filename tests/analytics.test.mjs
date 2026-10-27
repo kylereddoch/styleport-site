@@ -11,6 +11,8 @@ function all(node, tag) {
 const output = (path) => readFile(new URL(`../dist/${path}`, import.meta.url), "utf8");
 const directRelease = JSON.parse(await readFile(
   new URL("../src/_data/directRelease.json", import.meta.url), "utf8"));
+const site = JSON.parse(await readFile(
+  new URL("../src/_data/site.json", import.meta.url), "utf8"));
 
 test("content pages load one deferred Tinylytics embed with events and navigation-safe delivery", async () => {
   for (const route of routes) {
@@ -26,14 +28,18 @@ test("content pages load one deferred Tinylytics embed with events and navigatio
 test("outbound, contact, and download links have meaningful events without sending raw destinations", async () => {
   const seen = new Set();
   let downloads = 0;
+  let directAppLinks = 0;
   let betaLinks = 0;
+  let appStoreLinks = 0;
   for (const route of routes) {
     for (const node of all(parse(await output(route)), "a")) {
       const href = attr(node, "href");
       const event = attr(node, "data-tinylytics-event");
       const value = attr(node, "data-tinylytics-event-value");
       let expected;
-      if (href.startsWith("https://testflight.apple.com/")) { expected = "app.testflight"; betaLinks++; }
+      if (href === directRelease.archivePath) { expected = "app.download"; directAppLinks++; }
+      else if (href.startsWith("https://testflight.apple.com/")) { expected = "app.testflight"; betaLinks++; }
+      else if (site.appStoreUrl && href === site.appStoreUrl) { expected = "app.appstore"; appStoreLinks++; }
       else if (href.startsWith("https://buy.stripe.com/")) expected = "support.checkout";
       else if (href.startsWith("mailto:")) expected = "contact.email";
       else if (attr(node, "download") !== undefined) { expected = "file.download"; downloads++; }
@@ -48,9 +54,22 @@ test("outbound, contact, and download links have meaningful events without sendi
       }
     }
   }
-  assert.equal(downloads, directRelease.available ? 10 : 5);
+  assert.equal(downloads, directRelease.available ? 8 : 5);
+  assert.equal(directAppLinks, directRelease.available ? 2 : 0);
   assert.equal(betaLinks, 2);
-  assert.deepEqual([...seen].sort(), ["app.testflight", "contact.email", "cta.download", "cta.features", "file.download", "link.outbound", "support.checkout"]);
+  assert.equal(appStoreLinks, site.appStoreUrl ? 1 : 0);
+  assert.deepEqual([...seen].sort(), ["app.download", "app.testflight", "contact.email", "cta.download", "cta.features", "file.download", "link.outbound", "support.checkout"]);
+});
+
+test("distribution buttons use stable Tinylytics events and the App Store button is ready for launch", async () => {
+  const home = await output("index.html");
+  assert.match(home, /data-tinylytics-event="app\.download" data-tinylytics-event-value="relaybyte-direct"/);
+  assert.match(home, /data-tinylytics-event="app\.testflight" data-tinylytics-event-value="testflight-beta"/);
+  assert.doesNotMatch(home, /data-tinylytics-event="app\.appstore"/);
+
+  const source = await readFile(new URL("../src/index.njk", import.meta.url), "utf8");
+  assert.match(source, /\{% if site\.appStoreUrl %\}/);
+  assert.match(source, /data-tinylytics-event="app\.appstore" data-tinylytics-event-value="mac-app-store"/);
 });
 
 test("privacy distinguishes app behavior from website analytics and discloses the provider", async () => {
